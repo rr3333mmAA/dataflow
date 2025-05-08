@@ -26,7 +26,7 @@ docker-compose up -d --build
 
 The API provides two endpoints:
 
-### 1. Submit Data
+### 1. Submit Data / Trigger Pipeline
 
 ```bash
 curl -X POST http://localhost:8000/data \
