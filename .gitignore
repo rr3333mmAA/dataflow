@@ -1,8 +1,10 @@
 .venv/
 logs/*
-!logs/.gitkeep
 config/*
-!config/.gitkeep
 *.py[cod]
 output/*
 temp/*
+!logs/.gitkeep
+!config/.gitkeep
+!output/.gitkeep
+!temp/.gitkeep
