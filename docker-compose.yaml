@@ -67,7 +67,7 @@ x-airflow-common:
     AIRFLOW__SCHEDULER__ENABLE_HEALTH_CHECK: 'true'
     # WARNING: Use _PIP_ADDITIONAL_REQUIREMENTS option ONLY for a quick checks
     # for other purpose (development, test and especially production usage) build/extend Airflow image.
-    _PIP_ADDITIONAL_REQUIREMENTS: ${_PIP_ADDITIONAL_REQUIREMENTS:-}
+    _PIP_ADDITIONAL_REQUIREMENTS: ${_PIP_ADDITIONAL_REQUIREMENTS:- pandas==2.2.0 openpyxl==3.1.2 fpdf==1.7.2}
     # The following line can be used to set a custom config file, stored in the local config folder
     AIRFLOW_CONFIG: '/opt/airflow/config/airflow.cfg'
   volumes:
@@ -75,6 +75,8 @@ x-airflow-common:
     - ${AIRFLOW_PROJ_DIR:-.}/logs:/opt/airflow/logs
     - ${AIRFLOW_PROJ_DIR:-.}/config:/opt/airflow/config
     - ${AIRFLOW_PROJ_DIR:-.}/plugins:/opt/airflow/plugins
+    - ${AIRFLOW_PROJ_DIR:-.}/temp:/opt/airflow/temp
+    - ${AIRFLOW_PROJ_DIR:-.}/output:/opt/airflow/output
   user: "${AIRFLOW_UID:-50000}:0"
   depends_on:
     &airflow-common-depends-on
@@ -265,6 +267,23 @@ services:
       - airflow
     depends_on:
       <<: *airflow-common-depends-on
+
+  api:
+    build: 
+      context: ./api
+    ports:
+      - "8000:8000"
+    volumes:
+      - ${AIRFLOW_PROJ_DIR:-.}/temp:/opt/airflow/temp
+      - ${AIRFLOW_PROJ_DIR:-.}/output:/opt/airflow/output
+      - ${AIRFLOW_PROJ_DIR:-.}/dags:/opt/airflow/dags
+      - ${AIRFLOW_PROJ_DIR:-.}/logs:/opt/airflow/logs
+      - ${AIRFLOW_PROJ_DIR:-.}/config:/opt/airflow/config
+    environment:
+      <<: *airflow-common-env
+    depends_on:
+      airflow-scheduler:
+        condition: service_healthy
 
 volumes:
   postgres-db-volume:

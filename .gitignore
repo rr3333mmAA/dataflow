@@ -4,3 +4,5 @@ logs/*
 config/*
 !config/.gitkeep
 *.py[cod]
+output/*
+temp/*
