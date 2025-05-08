@@ -56,6 +56,7 @@ def dataflow_pipeline():
         pdf_path = os.path.join(OUTPUT_DIR, f"output_{timestamp}.pdf")
         pdf = FPDF()
         pdf.add_page()
+        pdf.set_font("Arial", size=12)
         
         # Add headers
         cols = df.columns
