@@ -1,1 +1,6 @@
 .venv/
+logs/*
+!logs/.gitkeep
+config/*
+!config/.gitkeep
+*.py[cod]
