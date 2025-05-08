@@ -19,7 +19,7 @@ echo -e "AIRFLOW_UID=$(id -u)" > .env
 
 2. Start the services:
 ```bash
-docker-compose up -d --build
+docker compose up -d --build
 ```
 
 ## API Usage
@@ -51,5 +51,5 @@ curl http://localhost:8000/download/pdf -o output.pdf
 ## Stopping the Services
 
 ```bash
-docker-compose down
+docker compose down
 ```
